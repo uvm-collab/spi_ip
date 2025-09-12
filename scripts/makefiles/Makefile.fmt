@@ -1,0 +1,50 @@
+#=============================================================================
+## [Filename]       Makefile.fmt
+## [Project]        lint-fmt
+## [Author]         Ciro Bermudez - cirofabian.bermudez@gmail.com
+## [Language]       GNU Makefile
+## [Created]        Sep 2025
+## [Modified]       -
+## [Description]    Makefile to lint and format the RTL and TB code
+## [Notes]          It automatically creates a backup of the code
+## [Status]         devel
+## [Revisions]      -
+##=============================================================================
+
+# ===============================  VARIABLES  =================================
+
+# Miscellaneous variables
+CUR_DATE   := $(shell date +%Y-%m-%d_%H-%M-%S)
+
+# Colors
+C_RED := \033[31m
+C_GRE := \033[32m
+C_BLU := \033[34m
+C_YEL := \033[33m
+C_ORA := \033[38;5;214m
+NC    := \033[0m 
+
+# ================================  TARGETS  ==================================
+.DEFAULT_GOAL := all
+SHELL         := bash
+
+.PHONY: all
+all: help
+#_____________________________________________________________________________)
+
+PHONY: install-verible
+install-verible: ## Install Verible
+	@./scripts/install-verible.sh
+#______________________________________________________________________________
+
+
+.PHONY: help
+help: ## Displays help message
+	@echo ""
+	@echo "======================================================================"
+	@echo ""
+	@echo "Usage: make <target> <variables>"
+	@echo ""
+	@echo "--------------------------- Targets ----------------------------------"
+	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "- make \033[36m%-15s\033[0m %s\n", $$1, $$2}'
+	@echo ""
